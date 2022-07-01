@@ -16,12 +16,14 @@ class InDefaultWidgetTree extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               height: 200,
               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-              child: Wrap(
-                children: List.generate(
-                  inheritedData.leftProducts.length,
-                  (index) => Container(
-                      margin: const EdgeInsets.all(3),
-                      child: InItemTag(isRightZone: false, index: index)),
+              child: SingleChildScrollView(
+                child: Wrap(
+                  children: List.generate(
+                    inheritedData.leftProducts.length,
+                    (index) => Container(
+                        margin: const EdgeInsets.all(3),
+                        child: InItemTag(isRightZone: false, index: index)),
+                  ),
                 ),
               ),
             ),
@@ -32,12 +34,14 @@ class InDefaultWidgetTree extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               height: 200,
               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-              child: Wrap(
-                children: List.generate(
-                  inheritedData.rightProducts.length,
-                  (index) => Container(
-                      margin: const EdgeInsets.all(3),
-                      child: InItemTag(isRightZone: true, index: index)),
+              child: SingleChildScrollView(
+                child: Wrap(
+                  children: List.generate(
+                    inheritedData.rightProducts.length,
+                    (index) => Container(
+                        margin: const EdgeInsets.all(3),
+                        child: InItemTag(isRightZone: true, index: index)),
+                  ),
                 ),
               ),
             ),

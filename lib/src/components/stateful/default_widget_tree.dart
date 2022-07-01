@@ -23,17 +23,19 @@ class DefaultWidgetTree extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             height: 200,
             decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-            child: Wrap(
-              children: List.generate(
-                leftZoneItems.length,
-                (index) => Container(
-                    margin: const EdgeInsets.all(3),
-                    child: ItemTag(
-                      tag: leftZoneItems.toList()[index],
-                      removeItemTag: (String item) {
-                        removeItem(item, true);
-                      },
-                    )),
+            child: SingleChildScrollView(
+              child: Wrap(
+                children: List.generate(
+                  leftZoneItems.length,
+                  (index) => Container(
+                      margin: const EdgeInsets.all(3),
+                      child: ItemTag(
+                        tag: leftZoneItems.toList()[index],
+                        removeItemTag: (String item) {
+                          removeItem(item, true);
+                        },
+                      )),
+                ),
               ),
             ),
           )),
@@ -43,16 +45,18 @@ class DefaultWidgetTree extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               height: 200,
               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-              child: Wrap(
-                children: List.generate(
-                  rightZoneItems.length,
-                  (index) => Container(
-                    margin: const EdgeInsets.all(3),
-                    child: ItemTag(
-                      tag: rightZoneItems.toList()[index],
-                      removeItemTag: (String item) {
-                        removeItem(item, false);
-                      },
+              child: SingleChildScrollView(
+                child: Wrap(
+                  children: List.generate(
+                    rightZoneItems.length,
+                    (index) => Container(
+                      margin: const EdgeInsets.all(3),
+                      child: ItemTag(
+                        tag: rightZoneItems.toList()[index],
+                        removeItemTag: (String item) {
+                          removeItem(item, false);
+                        },
+                      ),
                     ),
                   ),
                 ),

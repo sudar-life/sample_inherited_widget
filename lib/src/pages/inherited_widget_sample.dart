@@ -85,14 +85,11 @@ class InheritedStatefulWidgetState extends State<InheritedStatefulWidget> {
               )
             ],
           ),
-          floatingActionButton: Builder(
-            builder: (context) => FloatingActionButton(
-              onPressed: () {
-                var target = InheritedStatefulWidget.find(context);
-                target.addProducts(StringUtils.getRandomString(2));
-              },
-              child: const Icon(Icons.add),
-            ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.parent.addProducts(StringUtils.getRandomString(2));
+            },
+            child: const Icon(Icons.add),
           ),
         );
       }),
