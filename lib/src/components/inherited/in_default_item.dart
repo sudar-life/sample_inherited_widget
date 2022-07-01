@@ -8,7 +8,6 @@ class InDefaultItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var item = context.inherited.products.toList()[index!];
-    var target = context.parent;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -16,7 +15,7 @@ class InDefaultItem extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              target.leftAddProducts(item);
+              context.inherited.leftAddProducts(item);
             },
             child: const Text('left'),
           ),
@@ -27,7 +26,7 @@ class InDefaultItem extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              target.rightAddProducts(item);
+              context.inherited.rightAddProducts(item);
             },
             child: const Text('right'),
           ),

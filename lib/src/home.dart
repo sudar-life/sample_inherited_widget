@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => InheritedStatefulWidget()),
+                      builder: (context) => InheritedWidgetParent()),
                 );
               },
               child: const Text('InheritedWidget'),

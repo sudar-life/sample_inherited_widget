@@ -3,20 +3,70 @@ import 'package:sample_inherited_widget/src/components/inherited/in_default_item
 import 'package:sample_inherited_widget/src/components/inherited/in_default_widget_tree.dart';
 import 'package:sample_inherited_widget/src/utils/string_utils.dart';
 
+class InheritedWidgetParent extends StatefulWidget {
+  InheritedWidgetParent({Key? key}) : super(key: key);
+
+  @override
+  State<InheritedWidgetParent> createState() => _InheritedWidgetParentState();
+}
+
+class _InheritedWidgetParentState extends State<InheritedWidgetParent> {
+  @override
+  Widget build(BuildContext context) {
+    return InheritedStatefulWidget(
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('즐겨찾는 상품')),
+          body: Column(
+            children: [
+              InDefaultWidgetTree(),
+              const Divider(height: 1, color: Colors.grey),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: List.generate(
+                      context.inherited.products.length,
+                      (index) => InDefaultItem(index: index),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          floatingActionButton: const FloatingSampleBtn(),
+        );
+      }),
+    );
+  }
+}
+
+class FloatingSampleBtn extends StatelessWidget {
+  const FloatingSampleBtn({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        context.inheritedNoneRebuld.addProducts(StringUtils.getRandomString(2));
+      },
+      child: const Icon(Icons.add),
+    );
+  }
+}
+
 class InheritedStatefulWidget extends StatefulWidget {
+  Widget child;
   InheritedStatefulWidget({
     Key? key,
+    required this.child,
   }) : super(key: key);
 
-  static InheritedData of(BuildContext context) {
-    var data = context.dependOnInheritedWidgetOfExactType<InheritedData>();
+  static InheritedStatefulWidgetState of(BuildContext context,
+      {bool rebuild = true}) {
+    var data = rebuild
+        ? context.dependOnInheritedWidgetOfExactType<InheritedData>()!.data
+        : context.findAncestorWidgetOfExactType<InheritedData>()!.data;
     return data!;
-  }
-
-  static InheritedStatefulWidgetState find(BuildContext context) {
-    var target =
-        context.findAncestorStateOfType<InheritedStatefulWidgetState>();
-    return target!;
   }
 
   @override
@@ -63,52 +113,19 @@ class InheritedStatefulWidgetState extends State<InheritedStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return InheritedData(
-      products: products,
-      leftProducts: leftProducts,
-      rightProducts: rightProducts,
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(title: const Text('즐겨찾는 상품')),
-          body: Column(
-            children: [
-              InDefaultWidgetTree(),
-              const Divider(height: 1, color: Colors.grey),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(
-                      InheritedStatefulWidget.of(context).products.length,
-                      (index) => InDefaultItem(index: index),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.parent.addProducts(StringUtils.getRandomString(2));
-            },
-            child: const Icon(Icons.add),
-          ),
-        );
-      }),
+      data: this,
+      child: widget.child,
     );
   }
 }
 
 class InheritedData extends InheritedWidget {
+  InheritedStatefulWidgetState? data;
   InheritedData({
     Key? key,
-    required this.products,
-    required this.leftProducts,
-    required this.rightProducts,
+    this.data,
     required Widget child,
   }) : super(key: key, child: child);
-
-  Set<String> products = {};
-  Set<String> leftProducts = {};
-  Set<String> rightProducts = {};
 
   @override
   bool updateShouldNotify(InheritedData oldWidget) {
@@ -117,6 +134,8 @@ class InheritedData extends InheritedWidget {
 }
 
 extension SampleBuildContext on BuildContext {
-  InheritedData get inherited => InheritedStatefulWidget.of(this);
-  InheritedStatefulWidgetState get parent => InheritedStatefulWidget.find(this);
+  InheritedStatefulWidgetState get inherited =>
+      InheritedStatefulWidget.of(this);
+  InheritedStatefulWidgetState get inheritedNoneRebuld =>
+      InheritedStatefulWidget.of(this, rebuild: false);
 }

@@ -22,9 +22,9 @@ class InItemTag extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (isRightZone) {
-          context.parent.removeRightItem(rightItem);
+          context.inherited.removeRightItem(rightItem);
         } else {
-          context.parent.removeLeftItem(leftItem);
+          context.inherited.removeLeftItem(leftItem);
         }
       },
       child: Container(
