@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DefaultItem extends StatefulWidget {
+class DefaultItem extends StatelessWidget {
   final String item;
   final Function(bool, String) pushZone;
   const DefaultItem({Key? key, required this.item, required this.pushZone})
       : super(key: key);
 
-  @override
-  State<DefaultItem> createState() => _DefaultItemState();
-}
-
-class _DefaultItemState extends State<DefaultItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +14,7 @@ class _DefaultItemState extends State<DefaultItem> {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              widget.pushZone(true, widget.item);
+              pushZone(true, item);
             },
             child: const Text('left'),
           ),
@@ -27,14 +22,14 @@ class _DefaultItemState extends State<DefaultItem> {
         const SizedBox(width: 20),
         Expanded(
             child: Text(
-          widget.item,
+          item,
           textAlign: TextAlign.center,
         )),
         const SizedBox(width: 20),
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              widget.pushZone(false, widget.item);
+              pushZone(false, item);
             },
             child: const Text('right'),
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ItemTag extends StatefulWidget {
+class ItemTag extends StatelessWidget {
   final String tag;
   final Function(String) removeItemTag;
   const ItemTag({
@@ -10,15 +10,10 @@ class ItemTag extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ItemTag> createState() => _ItemTagState();
-}
-
-class _ItemTagState extends State<ItemTag> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.removeItemTag(widget.tag);
+        removeItemTag(tag);
       },
       child: Container(
         width: 50,
@@ -33,7 +28,7 @@ class _ItemTagState extends State<ItemTag> {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                widget.tag,
+                tag,
                 style: const TextStyle(fontSize: 13, color: Colors.blue),
               ),
             ),
