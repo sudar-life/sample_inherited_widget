@@ -3,9 +3,10 @@ import 'package:sample_inherited_widget/src/components/inherited/in_item_tag.dar
 import 'package:sample_inherited_widget/src/pages/inherited_widget_sample.dart';
 
 class InDefaultWidgetTree extends StatelessWidget {
+  const InDefaultWidgetTree({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var inheritedData = InheritedStatefulWidget.of(context);
+    var inheritedData = context.inherited;
     return Container(
       padding: const EdgeInsets.all(10),
       child: Row(

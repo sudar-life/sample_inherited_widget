@@ -4,7 +4,7 @@ import 'package:sample_inherited_widget/src/pages/inherited_widget_sample.dart';
 class InItemTag extends StatelessWidget {
   final bool isRightZone;
   final int index;
-  InItemTag({
+  const InItemTag({
     Key? key,
     required this.isRightZone,
     required this.index,
@@ -12,21 +12,19 @@ class InItemTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var target = InheritedStatefulWidget.find(context);
-    var inheritedData = InheritedStatefulWidget.of(context);
     var rightItem = '';
     var leftItem = '';
     if (isRightZone) {
-      rightItem = inheritedData.rightProducts.toList()[index];
+      rightItem = context.inherited.rightProducts.toList()[index];
     } else {
-      leftItem = inheritedData.leftProducts.toList()[index];
+      leftItem = context.inherited.leftProducts.toList()[index];
     }
     return GestureDetector(
       onTap: () {
         if (isRightZone) {
-          target.removeRightItem(rightItem);
+          context.parent.removeRightItem(rightItem);
         } else {
-          target.removeLeftItem(leftItem);
+          context.parent.removeLeftItem(leftItem);
         }
       },
       child: Container(

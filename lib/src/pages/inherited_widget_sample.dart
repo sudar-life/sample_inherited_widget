@@ -3,51 +3,9 @@ import 'package:sample_inherited_widget/src/components/inherited/in_default_item
 import 'package:sample_inherited_widget/src/components/inherited/in_default_widget_tree.dart';
 import 'package:sample_inherited_widget/src/utils/string_utils.dart';
 
-class InheritedWidgetSample extends StatelessWidget {
-  InheritedWidgetSample({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InheritedStatefulWidget(
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(title: const Text('즐겨찾는 상품')),
-          body: Column(
-            children: [
-              InDefaultWidgetTree(),
-              const Divider(height: 1, color: Colors.grey),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(
-                      InheritedStatefulWidget.of(context).products.length,
-                      (index) => InDefaultItem(index: index),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          floatingActionButton: Builder(
-            builder: (context) => FloatingActionButton(
-              onPressed: () {
-                var target = InheritedStatefulWidget.find(context);
-                target.addProducts(StringUtils.getRandomString(2));
-              },
-              child: const Icon(Icons.add),
-            ),
-          ),
-        );
-      }),
-    );
-  }
-}
-
 class InheritedStatefulWidget extends StatefulWidget {
-  Widget child;
   InheritedStatefulWidget({
     Key? key,
-    required this.child,
   }) : super(key: key);
 
   static InheritedData of(BuildContext context) {
@@ -108,7 +66,36 @@ class InheritedStatefulWidgetState extends State<InheritedStatefulWidget> {
       products: products,
       leftProducts: leftProducts,
       rightProducts: rightProducts,
-      child: widget.child,
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('즐겨찾는 상품')),
+          body: Column(
+            children: [
+              InDefaultWidgetTree(),
+              const Divider(height: 1, color: Colors.grey),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: List.generate(
+                      InheritedStatefulWidget.of(context).products.length,
+                      (index) => InDefaultItem(index: index),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          floatingActionButton: Builder(
+            builder: (context) => FloatingActionButton(
+              onPressed: () {
+                var target = InheritedStatefulWidget.find(context);
+                target.addProducts(StringUtils.getRandomString(2));
+              },
+              child: const Icon(Icons.add),
+            ),
+          ),
+        );
+      }),
     );
   }
 }
@@ -130,4 +117,9 @@ class InheritedData extends InheritedWidget {
   bool updateShouldNotify(InheritedData oldWidget) {
     return true;
   }
+}
+
+extension SampleBuildContext on BuildContext {
+  InheritedData get inherited => InheritedStatefulWidget.of(this);
+  InheritedStatefulWidgetState get parent => InheritedStatefulWidget.find(this);
 }
