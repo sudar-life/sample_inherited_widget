@@ -41,9 +41,77 @@ class _HomeState extends State<Home> {
               },
               child: const Text('InheritedWidget'),
             ),
-          )
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TestWidget()),
+                );
+              },
+              child: const Text('testWidget'),
+            ),
+          ),
         ],
       ),
     );
+  }
+}
+
+class TestWidget extends StatefulWidget {
+  TestWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TestWidget> createState() => _TestWidgetState();
+}
+
+class _TestWidgetState extends State<TestWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return ParentWidget(
+      child: ChildWidget(),
+    );
+  }
+}
+
+class ParentWidget extends StatefulWidget {
+  Widget child;
+  ParentWidget({Key? key, required this.child}) : super(key: key);
+
+  @override
+  State<ParentWidget> createState() => _ParentWidgetState();
+}
+
+class _ParentWidgetState extends State<ParentWidget> {
+  int i = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Text(
+            i.toString(),
+            style: TextStyle(fontSize: 150),
+          ),
+          widget.child,
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        setState(() {
+          i++;
+        });
+      }),
+    );
+  }
+}
+
+class ChildWidget extends StatelessWidget {
+  const ChildWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print('rebuild ChildWidget');
+    return Container();
   }
 }

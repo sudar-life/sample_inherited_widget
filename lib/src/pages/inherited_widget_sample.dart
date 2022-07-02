@@ -13,7 +13,7 @@ class InheritedWidgetParent extends StatefulWidget {
 class _InheritedWidgetParentState extends State<InheritedWidgetParent> {
   @override
   Widget build(BuildContext context) {
-    return InheritedStatefulWidget(
+    return InheritedStateWidget(
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(title: const Text('즐겨찾는 상품')),
@@ -45,6 +45,7 @@ class FloatingSampleBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('FloatingSampleBtn in build');
     return FloatingActionButton(
       onPressed: () {
         context.inheritedNoneRebuld.addProducts(StringUtils.getRandomString(2));
@@ -54,15 +55,14 @@ class FloatingSampleBtn extends StatelessWidget {
   }
 }
 
-class InheritedStatefulWidget extends StatefulWidget {
+class InheritedStateWidget extends StatefulWidget {
   Widget child;
-  InheritedStatefulWidget({
+  InheritedStateWidget({
     Key? key,
     required this.child,
   }) : super(key: key);
 
-  static InheritedStatefulWidgetState of(BuildContext context,
-      {bool rebuild = true}) {
+  static InheritedState of(BuildContext context, {bool rebuild = true}) {
     var data = rebuild
         ? context.dependOnInheritedWidgetOfExactType<InheritedData>()!.data
         : context.findAncestorWidgetOfExactType<InheritedData>()!.data;
@@ -70,11 +70,10 @@ class InheritedStatefulWidget extends StatefulWidget {
   }
 
   @override
-  State<InheritedStatefulWidget> createState() =>
-      InheritedStatefulWidgetState();
+  State<InheritedStateWidget> createState() => InheritedState();
 }
 
-class InheritedStatefulWidgetState extends State<InheritedStatefulWidget> {
+class InheritedState extends State<InheritedStateWidget> {
   Set<String> products = {};
   Set<String> leftProducts = {};
   Set<String> rightProducts = {};
@@ -120,7 +119,7 @@ class InheritedStatefulWidgetState extends State<InheritedStatefulWidget> {
 }
 
 class InheritedData extends InheritedWidget {
-  InheritedStatefulWidgetState? data;
+  InheritedState? data;
   InheritedData({
     Key? key,
     this.data,
@@ -134,8 +133,7 @@ class InheritedData extends InheritedWidget {
 }
 
 extension SampleBuildContext on BuildContext {
-  InheritedStatefulWidgetState get inherited =>
-      InheritedStatefulWidget.of(this);
-  InheritedStatefulWidgetState get inheritedNoneRebuld =>
-      InheritedStatefulWidget.of(this, rebuild: false);
+  InheritedState get inherited => InheritedStateWidget.of(this);
+  InheritedState get inheritedNoneRebuld =>
+      InheritedStateWidget.of(this, rebuild: false);
 }

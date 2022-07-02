@@ -14,6 +14,7 @@ class DefaultWidgetTree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('DefaultWidgetTree build!');
     return Container(
       padding: const EdgeInsets.all(10),
       child: Row(
